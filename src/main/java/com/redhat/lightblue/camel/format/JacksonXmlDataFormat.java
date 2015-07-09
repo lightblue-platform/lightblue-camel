@@ -1,4 +1,4 @@
-package com.redhat.lightblue.camel.utils;
+package com.redhat.lightblue.camel.format;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -9,8 +9,9 @@ import org.apache.camel.spi.DataFormat;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 /**
+ * {@link DataFormat} that uses the Jackson {@link XmlMapper} to marshal and unmarshal.
  *
- *
+ * @author dcrissman
  */
 public class JacksonXmlDataFormat implements DataFormat {
 
