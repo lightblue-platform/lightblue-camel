@@ -2,8 +2,8 @@ package com.redhat.lightblue.camel;
 
 import org.apache.camel.builder.RouteBuilder;
 
+import com.redhat.lightblue.camel.format.JacksonXmlDataFormat;
 import com.redhat.lightblue.camel.model.Event;
-import com.redhat.lightblue.camel.utils.JacksonXmlDataFormat;
 import com.redhat.lightblue.camel.utils.LightblueErrorVerifier;
 import com.redhat.lightblue.camel.utils.LightblueResponseTransformer;
 
