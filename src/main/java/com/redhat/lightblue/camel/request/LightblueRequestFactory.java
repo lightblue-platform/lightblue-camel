@@ -80,9 +80,9 @@ public class LightblueRequestFactory {
             @Header(HEADER_ENTITY_VERSION) String entityVersion,
             @Header(HEADER_QUERY) Query query,
             @Header(HEADER_PROJECTIONS) Projection[] projections,
-            @Header(HEADER_SORTS) Sort[] sorts, 
-            @Header(HEADER_RANGE_BEGIN) Integer beginRange,
-            @Header(HEADER_RANGE_END) Integer endRange) {
+            @Nullable @Header(HEADER_SORTS) Sort[] sorts, 
+            @Nullable @Header(HEADER_RANGE_BEGIN) Integer beginRange,
+            @Nullable @Header(HEADER_RANGE_END) Integer endRange) {
 
         DataFindRequest request = new DataFindRequest(entityName, entityVersion);
         request.select(projections);
