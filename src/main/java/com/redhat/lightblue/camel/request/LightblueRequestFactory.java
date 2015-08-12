@@ -1,83 +1,103 @@
 package com.redhat.lightblue.camel.request;
 
-import org.apache.camel.Exchange;
-import org.apache.camel.Processor;
+import org.apache.camel.Body;
+import org.apache.camel.Header;
 
-import com.redhat.lightblue.client.expression.query.Query;
-import com.redhat.lightblue.client.projection.FieldProjection;
-import com.redhat.lightblue.client.projection.Projection;
+import com.redhat.lightblue.client.Projection;
+import com.redhat.lightblue.client.Query;
+import com.redhat.lightblue.client.Sort;
+import com.redhat.lightblue.client.Update;
 import com.redhat.lightblue.client.request.LightblueRequest;
+import com.redhat.lightblue.client.request.data.DataDeleteRequest;
+import com.redhat.lightblue.client.request.data.DataFindRequest;
+import com.redhat.lightblue.client.request.data.DataInsertRequest;
+import com.redhat.lightblue.client.request.data.DataSaveRequest;
+import com.redhat.lightblue.client.request.data.DataUpdateRequest;
 
-public abstract class LightblueRequestFactory<R extends LightblueRequest> implements Processor {
+public class LightblueRequestFactory<R extends LightblueRequest> {
 
     public static final String HEADER_ENTITY_NAME = "entityName";
     public static final String HEADER_ENTITY_VERSION = "entityVersion";
     public static final String HEADER_PROJECTIONS = "projections";
     public static final String HEADER_QUERY = "query";
+    public static final String HEADER_SORTS = "sorts";
+    public static final String HEADER_RANGE_BEGIN = "rangeBegin";
+    public static final String HEADER_RANGE_END = "endRange";
 
-    static final Projection[] DEFAULT_PROJECTIONS = new Projection[]{
-        FieldProjection.includeFieldRecursively("*")
-    };
+    public DataInsertRequest createInsert(
+            @Header(HEADER_ENTITY_NAME) String entityName,
+            @Header(HEADER_ENTITY_VERSION) String entityVersion,
+            @Header(HEADER_PROJECTIONS) Projection[] projections,
+            @Body Object[] body){
 
-    private Exchange exchange;
-    private final String entityName;
-    private final String entityVersion;
+        DataInsertRequest request = new DataInsertRequest(entityName, entityVersion);
+        request.create(body);
+        request.returns(projections);
 
-    public String getEntityName() {
-        if (entityName == null) {
-            return exchange.getIn().getHeader(HEADER_ENTITY_NAME, String.class);
+        return request;
+    }
+
+    public DataUpdateRequest createUpdate(
+            @Header(HEADER_ENTITY_NAME) String entityName,
+            @Header(HEADER_ENTITY_VERSION) String entityVersion,
+            @Header(HEADER_QUERY) Query query,
+            @Header(HEADER_PROJECTIONS) Projection[] projections,
+            @Body Update[] body){
+
+        DataUpdateRequest request = new DataUpdateRequest(entityName, entityVersion);
+        request.updates(body);
+        request.where(query);
+        request.returns(projections);
+
+        return request;
+    }
+
+    public DataSaveRequest createSave(
+            @Header(HEADER_ENTITY_NAME) String entityName,
+            @Header(HEADER_ENTITY_VERSION) String entityVersion,
+            @Header(HEADER_PROJECTIONS) Projection[] projections,
+            @Body Object[] body){
+
+        DataSaveRequest request = new DataSaveRequest(entityName, entityVersion);
+        request.create(body);
+        request.returns(projections);
+
+        return request;
+    }
+
+    public DataFindRequest createFind(
+            @Header(HEADER_ENTITY_NAME) String entityName,
+            @Header(HEADER_ENTITY_VERSION) String entityVersion,
+            @Header(HEADER_QUERY) Query query,
+            @Header(HEADER_PROJECTIONS) Projection[] projections,
+            @Header(HEADER_SORTS) Sort[] sorts, 
+            @Header(HEADER_RANGE_BEGIN) Integer beginRange,
+            @Header(HEADER_RANGE_END) Integer endRange) {
+
+        DataFindRequest request = new DataFindRequest(entityName, entityVersion);
+        request.select(projections);
+        request.where(query);
+
+        if (sorts != null) {
+            request.sort(sorts);
         }
-        return entityName;
-    }
 
-    public String getEntityVersion() {
-        if (entityVersion == null) {
-            return exchange.getIn().getHeader(HEADER_ENTITY_VERSION, String.class);
+        if (beginRange != null) {
+            request.range(beginRange, endRange);
         }
-        return entityVersion;
+
+        return request;
     }
+    
+    public DataDeleteRequest createDelete(
+            @Header(HEADER_ENTITY_NAME) String entityName,
+            @Header(HEADER_ENTITY_VERSION) String entityVersion,
+            @Header(HEADER_QUERY) Query query) {
 
-    /**
-     * Will return the set projection. If not set, then will return the default projection
-     * that will return all fields recursively.
-     * @return projections
-     */
-    public Projection[] getProjections() {
-        if (exchange.getIn().getHeader(HEADER_PROJECTIONS) == null) {
-            return DEFAULT_PROJECTIONS;
-        }
-        return exchange.getIn().getHeader(HEADER_PROJECTIONS, Projection[].class);
+        DataDeleteRequest request = new DataDeleteRequest(entityName, entityVersion);
+        request.where(query);
+
+        return request;
     }
-
-    public Query getQuery() {
-        return exchange.getIn().getHeader(HEADER_QUERY, Query.class);
-    }
-
-    public <T> T getBody(Class<T> type) {
-        return exchange.getIn().getBody(type);
-    }
-
-    public LightblueRequestFactory() {
-        this(null, null);
-    }
-
-    public LightblueRequestFactory(String entityName) {
-        this(entityName, null);
-    }
-
-    public LightblueRequestFactory(String entityName, String entityVersion) {
-        this.entityName = entityName;
-        this.entityVersion = entityVersion;
-    }
-
-    @Override
-    public void process(Exchange exchange) throws Exception {
-        this.exchange = exchange;
-
-        R request = createRequest(getEntityName(), getEntityVersion());
-        exchange.getIn().setBody(request);
-    }
-
-    protected abstract R createRequest(String entityName, String entityVersion);
 
 }
