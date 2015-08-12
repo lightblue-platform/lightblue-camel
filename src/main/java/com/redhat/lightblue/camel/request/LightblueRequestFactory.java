@@ -9,14 +9,13 @@ import com.redhat.lightblue.client.Projection;
 import com.redhat.lightblue.client.Query;
 import com.redhat.lightblue.client.Sort;
 import com.redhat.lightblue.client.Update;
-import com.redhat.lightblue.client.request.LightblueRequest;
 import com.redhat.lightblue.client.request.data.DataDeleteRequest;
 import com.redhat.lightblue.client.request.data.DataFindRequest;
 import com.redhat.lightblue.client.request.data.DataInsertRequest;
 import com.redhat.lightblue.client.request.data.DataSaveRequest;
 import com.redhat.lightblue.client.request.data.DataUpdateRequest;
 
-public class LightblueRequestFactory<R extends LightblueRequest> {
+public class LightblueRequestFactory {
 
     public static final String HEADER_ENTITY_NAME = "entityName";
     public static final String HEADER_ENTITY_VERSION = "entityVersion";
