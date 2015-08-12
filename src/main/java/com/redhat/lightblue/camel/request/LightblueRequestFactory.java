@@ -1,5 +1,7 @@
 package com.redhat.lightblue.camel.request;
 
+import javax.annotation.Nullable;
+
 import org.apache.camel.Body;
 import org.apache.camel.Header;
 
@@ -27,11 +29,14 @@ public class LightblueRequestFactory<R extends LightblueRequest> {
     public DataInsertRequest createInsert(
             @Header(HEADER_ENTITY_NAME) String entityName,
             @Header(HEADER_ENTITY_VERSION) String entityVersion,
-            @Header(HEADER_PROJECTIONS) Projection[] projections,
+            @Nullable @Header(HEADER_PROJECTIONS) Projection[] projections,
             @Body Object[] body){
 
         DataInsertRequest request = new DataInsertRequest(entityName, entityVersion);
         request.create(body);
+        if(projections == null){
+            projections = new Projection[]{Projection.includeFieldRecursively("*")};
+        }
         request.returns(projections);
 
         return request;
@@ -41,12 +46,15 @@ public class LightblueRequestFactory<R extends LightblueRequest> {
             @Header(HEADER_ENTITY_NAME) String entityName,
             @Header(HEADER_ENTITY_VERSION) String entityVersion,
             @Header(HEADER_QUERY) Query query,
-            @Header(HEADER_PROJECTIONS) Projection[] projections,
+            @Nullable @Header(HEADER_PROJECTIONS) Projection[] projections,
             @Body Update[] body){
 
         DataUpdateRequest request = new DataUpdateRequest(entityName, entityVersion);
         request.updates(body);
         request.where(query);
+        if(projections == null){
+            projections = new Projection[]{Projection.includeFieldRecursively("*")};
+        }
         request.returns(projections);
 
         return request;
@@ -55,11 +63,14 @@ public class LightblueRequestFactory<R extends LightblueRequest> {
     public DataSaveRequest createSave(
             @Header(HEADER_ENTITY_NAME) String entityName,
             @Header(HEADER_ENTITY_VERSION) String entityVersion,
-            @Header(HEADER_PROJECTIONS) Projection[] projections,
+            @Nullable @Header(HEADER_PROJECTIONS) Projection[] projections,
             @Body Object[] body){
 
         DataSaveRequest request = new DataSaveRequest(entityName, entityVersion);
         request.create(body);
+        if(projections == null){
+            projections = new Projection[]{Projection.includeFieldRecursively("*")};
+        }
         request.returns(projections);
 
         return request;

@@ -5,7 +5,6 @@ import org.apache.camel.builder.RouteBuilder;
 import com.redhat.lightblue.camel.model.User;
 import com.redhat.lightblue.camel.request.LightblueRequestFactory;
 import com.redhat.lightblue.camel.utils.JacksonXmlDataFormat;
-import com.redhat.lightblue.client.Projection;
 import com.redhat.lightblue.client.response.LightblueException;
 
 public class SampleProducerRoute extends RouteBuilder {
@@ -22,8 +21,6 @@ public class SampleProducerRoute extends RouteBuilder {
             .unmarshal(new JacksonXmlDataFormat(User[].class))
             .setHeader(LightblueRequestFactory.HEADER_ENTITY_NAME, constant("user"))
             .setHeader(LightblueRequestFactory.HEADER_ENTITY_VERSION, constant("1.0.0"))
-            .setHeader(LightblueRequestFactory.HEADER_PROJECTIONS, 
-                    constant(new Projection[]{Projection.includeFieldRecursively("*")}))
             .bean(LightblueRequestFactory.class, "createInsert")
             .to("lightblue://inboundTest")
             .transform(simple("${body.getText}"))
