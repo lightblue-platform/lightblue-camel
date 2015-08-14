@@ -5,7 +5,6 @@ import javax.annotation.Nullable;
 import org.apache.camel.Body;
 import org.apache.camel.Header;
 
-<<<<<<< HEAD
 import com.redhat.lightblue.client.Projection;
 import com.redhat.lightblue.client.Query;
 import com.redhat.lightblue.client.Sort;
