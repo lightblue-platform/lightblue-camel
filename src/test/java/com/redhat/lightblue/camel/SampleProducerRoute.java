@@ -3,7 +3,7 @@ package com.redhat.lightblue.camel;
 import org.apache.camel.builder.RouteBuilder;
 
 import com.redhat.lightblue.camel.model.User;
-import com.redhat.lightblue.camel.request.LightblueInsertRequestFactory;
+import com.redhat.lightblue.camel.request.LightblueRequestFactory;
 import com.redhat.lightblue.camel.utils.JacksonXmlDataFormat;
 
 public class SampleProducerRoute extends RouteBuilder {
@@ -17,7 +17,9 @@ public class SampleProducerRoute extends RouteBuilder {
 
         from("direct:start")
             .unmarshal(new JacksonXmlDataFormat(User[].class))
-            .bean(new LightblueInsertRequestFactory("user", "1.0.0"))
+            .setHeader(LightblueRequestFactory.HEADER_ENTITY_NAME, constant("user"))
+            .setHeader(LightblueRequestFactory.HEADER_ENTITY_VERSION, constant("1.0.0"))
+            .bean(LightblueRequestFactory.class, "createInsert")
             .to("lightblue://inboundTest")
             .transform(simple("${body.getText}"))
             .to("mock:result");
