@@ -3,9 +3,8 @@ package com.redhat.lightblue.camel.request;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 
-import com.redhat.lightblue.client.expression.query.Query;
-import com.redhat.lightblue.client.projection.FieldProjection;
-import com.redhat.lightblue.client.projection.Projection;
+import com.redhat.lightblue.client.Projection;
+import com.redhat.lightblue.client.Query;
 import com.redhat.lightblue.client.request.LightblueRequest;
 
 @Deprecated
@@ -17,7 +16,7 @@ public abstract class LightblueRequestFactory<R extends LightblueRequest> implem
     public static final String HEADER_QUERY = "query";
 
     static final Projection[] DEFAULT_PROJECTIONS = new Projection[]{
-        FieldProjection.includeFieldRecursively("*")
+        Projection.includeFieldRecursively("*")
     };
 
     private Exchange exchange;
