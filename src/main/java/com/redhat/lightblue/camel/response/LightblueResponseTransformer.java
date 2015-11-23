@@ -2,6 +2,7 @@ package com.redhat.lightblue.camel.response;
 
 import org.apache.camel.Handler;
 
+import com.redhat.lightblue.client.response.LightblueDataResponse;
 import com.redhat.lightblue.client.response.LightblueResponse;
 
 /**
@@ -20,7 +21,7 @@ public class LightblueResponseTransformer<T> {
     }
 
     @Handler
-    public T transform(LightblueResponse body) throws Exception {
+    public T transform(LightblueDataResponse body) throws Exception {
         return body.parseProcessed(type);
     }
 

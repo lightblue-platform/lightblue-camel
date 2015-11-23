@@ -9,6 +9,7 @@ import com.redhat.lightblue.client.request.AbstractLightblueDataRequest;
 import com.redhat.lightblue.client.request.AbstractLightblueMetadataRequest;
 import com.redhat.lightblue.client.request.LightblueRequest;
 import com.redhat.lightblue.client.response.LightblueException;
+import com.redhat.lightblue.client.response.LightblueResponse;
 
 /**
  * The Lightblue producer.
@@ -39,11 +40,7 @@ public class LightblueProducer extends DefaultProducer {
         }
     }
 
-    /*
-     * TODO I would prefer this method return a LightblueResponse instead of Object,
-     * but bulkData has a different parent hierarchy.
-     */
-    private Object sendRequest(LightblueRequest request) throws LightblueException {
+    private LightblueResponse sendRequest(LightblueRequest request) throws LightblueException {
         if (request instanceof AbstractLightblueDataRequest) {
             return endpoint.getLightblueClient().data(request);
         }
