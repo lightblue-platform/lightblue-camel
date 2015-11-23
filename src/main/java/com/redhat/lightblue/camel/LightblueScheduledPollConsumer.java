@@ -5,7 +5,7 @@ import org.apache.camel.Processor;
 import org.apache.camel.impl.ScheduledPollConsumer;
 
 import com.redhat.lightblue.camel.exception.LightblueCamelConsumerException;
-import com.redhat.lightblue.client.response.LightblueResponse;
+import com.redhat.lightblue.client.response.LightblueDataResponse;
 
 /**
  * Lightblue polling consumer.
@@ -22,7 +22,7 @@ public class LightblueScheduledPollConsumer extends ScheduledPollConsumer {
     @Override
     protected int poll() throws Exception {
         Exchange exchange = endpoint.createExchange();
-        LightblueResponse response = null;
+        LightblueDataResponse response = null;
 
         try {
             response = endpoint.getLightblueClient().data(endpoint.getLightbluePollingRequest());
