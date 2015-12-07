@@ -71,7 +71,8 @@
     <sonar.jdbc.password>sonar</sonar.jdbc.password>
     <sonar.host.url>http://127.0.0.1:8080</sonar.host.url>
     <sonar.projectName>lightblue-camel</sonar.projectName>
-    <camel.version>2.16.0</camel.version>
+    <camel.version>2.16.1</camel.version>
+    <lightblue.client.version>2.1.0-SNAPSHOT</lightblue.client.version>
   </properties>
 
   <dependencies>
@@ -92,7 +93,7 @@
     <dependency>
       <groupId>com.redhat.lightblue.client</groupId>
       <artifactId>lightblue-client-http</artifactId>
-      <version>2.0.0-SNAPSHOT</version>
+      <version>${lightblue.client.version}</version>
     </dependency>
 
     <dependency>
@@ -142,7 +143,7 @@
     <dependency>
       <groupId>com.redhat.lightblue.client</groupId>
       <artifactId>lightblue-client-integration-test</artifactId>
-      <version>2.0.0-SNAPSHOT</version>
+      <version>${lightblue.client.version}</version>
       <scope>test</scope>
     </dependency>
     
