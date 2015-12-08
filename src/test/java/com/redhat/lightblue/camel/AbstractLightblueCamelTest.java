@@ -13,7 +13,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.redhat.lightblue.client.LightblueClient;
-import com.redhat.lightblue.client.integration.test.AbstractLightblueClientCRUDController;
+import com.redhat.lightblue.client.integration.test.LightblueClientTestHarness;
 
 /**
  * Contains everything needed to run a camel test using guice and lightblue. The implementation
@@ -22,7 +22,7 @@ import com.redhat.lightblue.client.integration.test.AbstractLightblueClientCRUDC
  *
  * @author dcrissman
  */
-public abstract class AbstractLightblueCamelTest extends AbstractLightblueClientCRUDController {
+public abstract class AbstractLightblueCamelTest extends LightblueClientTestHarness {
 
     private CamelContext context;
 
