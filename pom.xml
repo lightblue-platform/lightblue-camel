@@ -72,7 +72,7 @@
     <sonar.host.url>http://127.0.0.1:8080</sonar.host.url>
     <sonar.projectName>lightblue-camel</sonar.projectName>
     <camel.version>2.16.1</camel.version>
-    <lightblue.client.version>2.1.0-SNAPSHOT</lightblue.client.version>
+    <lightblue.client.version>2.3.0-SNAPSHOT</lightblue.client.version>
   </properties>
 
   <dependencies>
