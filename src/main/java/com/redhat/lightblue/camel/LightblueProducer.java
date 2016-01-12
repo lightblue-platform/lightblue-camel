@@ -4,11 +4,11 @@ import org.apache.camel.Exchange;
 import org.apache.camel.impl.DefaultProducer;
 
 import com.redhat.lightblue.camel.exception.LightblueCamelProducerException;
+import com.redhat.lightblue.client.LightblueException;
 import com.redhat.lightblue.client.request.AbstractDataBulkRequest;
 import com.redhat.lightblue.client.request.AbstractLightblueDataRequest;
 import com.redhat.lightblue.client.request.AbstractLightblueMetadataRequest;
 import com.redhat.lightblue.client.request.LightblueRequest;
-import com.redhat.lightblue.client.response.LightblueException;
 import com.redhat.lightblue.client.response.LightblueResponse;
 
 /**
