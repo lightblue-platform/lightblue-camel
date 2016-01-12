@@ -19,8 +19,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Lists;
+import com.redhat.lightblue.client.LightblueException;
 import com.redhat.lightblue.client.Locking;
-import com.redhat.lightblue.client.response.LightblueException;
 
 /**
  * Creates a lock (aka. acquire) in lightblue for ONE of array elements (exchange body type is expected to be an array)
@@ -96,14 +96,17 @@ public class LightblueLockPolicy<T> implements Policy {
                     throw new LightblueLockingException(e1);
                 }
 
-                if (elements == null)
+                if (elements == null) {
                     throw new LightblueLockingException(new IllegalArgumentException("Expecting array"));
+                }
 
-                if (elements.length == 0)
+                if (elements.length == 0) {
                     throw new LightblueLockingException(new IllegalArgumentException("Expecting non empty array"));
+                }
 
-                if (callerId == null)
+                if (callerId == null) {
                     locking.setCallerId(URLEncoder.encode(routeContext.getRoute().getId()+"-"+UUID.randomUUID(), "UTF-8"));
+                }
 
                 Pair<T, String> pair = tryToLock(Lists.newArrayList(elements));
 
@@ -124,8 +127,9 @@ public class LightblueLockPolicy<T> implements Policy {
                 } finally {
                     try{
                         locking.release(lockedResourceId);
-                        if (LOGGER.isDebugEnabled())
+                        if (LOGGER.isDebugEnabled()) {
                             LOGGER.debug("Releasing lock on "+ java.net.URLDecoder.decode(lockedResourceId, "UTF-8"));
+                        }
                     }
                     catch (Exception e) {
                         if (exchange.isFailed()) {
@@ -166,8 +170,9 @@ public class LightblueLockPolicy<T> implements Policy {
 
                 String resourceId = resourceIdExtractor.getResourceId(element);
 
-                if (LOGGER.isDebugEnabled())
+                if (LOGGER.isDebugEnabled()) {
                     LOGGER.debug("About to aquire lock on "+ java.net.URLDecoder.decode(resourceId, "UTF-8"));
+                }
 
                 if (cantLockResourceIds.contains(resourceId)) {
                     LOGGER.debug("Skipping resourceId={} because it was not available for locking previously", resourceId);

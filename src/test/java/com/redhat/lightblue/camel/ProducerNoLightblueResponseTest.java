@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import com.redhat.lightblue.camel.exception.LightblueCamelProducerException;
-import com.redhat.lightblue.client.response.LightblueException;
+import com.redhat.lightblue.client.LightblueException;
 
 /**
  * Test for {@link SampleProducerRoute}.

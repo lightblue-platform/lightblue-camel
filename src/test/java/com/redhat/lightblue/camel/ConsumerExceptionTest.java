@@ -6,11 +6,11 @@ import org.junit.Test;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.redhat.lightblue.camel.exception.LightblueCamelConsumerException;
-import com.redhat.lightblue.client.response.LightblueException;
+import com.redhat.lightblue.client.LightblueException;
 
 /**
  * Test for {@link SampleConsumerRoute}.
- * 
+ *
  * @author mpatercz
  *
  */
