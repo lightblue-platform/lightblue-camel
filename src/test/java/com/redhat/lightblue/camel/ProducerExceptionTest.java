@@ -44,7 +44,6 @@ public class ProducerExceptionTest extends AbstractProducerTest {
         Exception e = exceptionEndpoint.getExchanges().get(0).getProperty(Exchange.EXCEPTION_CAUGHT, Exception.class);
         Assert.assertTrue(e instanceof LightblueCamelProducerException);
         Assert.assertTrue(e.getCause() instanceof LightblueException);
-        Assert.assertTrue(e.getCause().getMessage().contains("Lightblue exception occurred"));
     }
 
 }

@@ -71,8 +71,8 @@
     <sonar.jdbc.password>sonar</sonar.jdbc.password>
     <sonar.host.url>http://127.0.0.1:8080</sonar.host.url>
     <sonar.projectName>lightblue-camel</sonar.projectName>
-    <camel.version>2.16.1</camel.version>
-    <lightblue.client.version>3.1.0-SNAPSHOT</lightblue.client.version>
+    <camel.version>2.16.2</camel.version>
+    <lightblue.client.version>4.0.0-SNAPSHOT</lightblue.client.version>
   </properties>
 
   <dependencies>
@@ -99,7 +99,7 @@
     <dependency>
       <groupId>com.fasterxml.jackson.dataformat</groupId>
       <artifactId>jackson-dataformat-xml</artifactId>
-      <version>2.5.3</version>
+      <version>2.7.1</version>
     </dependency>
 
     <dependency>

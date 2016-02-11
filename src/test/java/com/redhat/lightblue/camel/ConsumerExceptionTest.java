@@ -45,12 +45,10 @@ public class ConsumerExceptionTest extends AbstractConsumerTest {
         Exception e1 = exceptionEndpoint.getExchanges().get(0).getProperty(Exchange.EXCEPTION_CAUGHT, Exception.class);
         Assert.assertTrue(e1 instanceof LightblueCamelConsumerException);
         Assert.assertTrue(e1.getCause() instanceof LightblueException);
-        Assert.assertTrue(e1.getCause().getMessage().contains("Lightblue exception occurred"));
 
         Exception e2 = exceptionEndpoint.getExchanges().get(1).getProperty(Exchange.EXCEPTION_CAUGHT, Exception.class);
         Assert.assertTrue(e2 instanceof LightblueCamelConsumerException);
         Assert.assertTrue(e2.getCause() instanceof LightblueException);
-        Assert.assertTrue(e2.getCause().getMessage().contains("Lightblue exception occurred"));
     }
 
 }

@@ -18,6 +18,7 @@ import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.mockito.Matchers;
 import org.mockito.Mockito;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -28,6 +29,7 @@ import com.google.inject.Provides;
 import com.redhat.lightblue.camel.AbstractLightblueCamelTest;
 import com.redhat.lightblue.camel.lock.LightblueLockPolicy.ResourceIdExtractor;
 import com.redhat.lightblue.client.Locking;
+import com.redhat.lightblue.client.response.lock.InvalidLockException;
 
 public class LightblueLockPolicyTest extends AbstractLightblueCamelTest {
 
@@ -43,9 +45,9 @@ public class LightblueLockPolicyTest extends AbstractLightblueCamelTest {
 
     protected MockEndpoint mockEndpoint;
 
-    Locking testLocking;
+    private final Locking testLocking;
 
-    ResourceIdExtractor<String> stringIdExtractor = new ResourceIdExtractor<String>() {
+    private final ResourceIdExtractor<String> stringIdExtractor = new ResourceIdExtractor<String>() {
 
         @Override
         public String getResourceId(String resource) {
@@ -53,7 +55,7 @@ public class LightblueLockPolicyTest extends AbstractLightblueCamelTest {
         }
     };
 
-    LightblueLockPolicy<String> lightblueLockPolicy =
+    private final LightblueLockPolicy<String> lightblueLockPolicy =
             new LightblueLockPolicy<String>(stringIdExtractor, getLightblueClient().getLocking(DOMAIN));
 
 
@@ -102,7 +104,11 @@ public class LightblueLockPolicyTest extends AbstractLightblueCamelTest {
 
         testTemplate.sendBody(new String[] {"fakebody"});
 
-        assertFalse(lightblueLockPolicy.getLocking().ping("fakebody"));
+        try {
+            lightblueLockPolicy.getLocking().ping("fakebody");
+        } catch (InvalidLockException e) {
+            Assert.assertEquals("fakebody", e.getResourceId());
+        }
 
         mockEndpoint.assertIsSatisfied();
     }
@@ -117,7 +123,11 @@ public class LightblueLockPolicyTest extends AbstractLightblueCamelTest {
 
         testTemplate.sendBody(new String[]{"a", "b", "c"});
 
-        assertFalse(lightblueLockPolicy.getLocking().ping("c"));
+        try {
+            lightblueLockPolicy.getLocking().ping("c");
+        } catch (InvalidLockException e) {
+            Assert.assertEquals("c", e.getResourceId());
+        }
 
         mockEndpoint.assertIsSatisfied();
     }
@@ -148,14 +158,14 @@ public class LightblueLockPolicyTest extends AbstractLightblueCamelTest {
         mockEndpoint.expectedMessageCount(0);
 
         // false means lock already taken
-        Mockito.when(duplicatesLocking.acquire(Mockito.anyString(), Mockito.anyLong())).thenReturn(false);
+        Mockito.when(duplicatesLocking.acquire(Matchers.anyString(), Matchers.anyLong())).thenReturn(false);
 
         duplicatesTemplate.sendBody(new String[] {"a", "a", "a", "a", "a"});
 
         mockEndpoint.assertIsSatisfied();
 
         // confirm there was only one attempt to lock, because all elements are the same
-        Mockito.verify(duplicatesLocking, Mockito.times(1)).acquire(Mockito.anyString(), Mockito.anyLong());
+        Mockito.verify(duplicatesLocking, Mockito.times(1)).acquire(Matchers.anyString(), Matchers.anyLong());
     }
 
     class SuiteModule extends AbstractModule {
