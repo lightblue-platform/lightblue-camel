@@ -5,9 +5,9 @@ import org.apache.camel.impl.DefaultProducer;
 
 import com.redhat.lightblue.camel.exception.LightblueCamelProducerException;
 import com.redhat.lightblue.client.LightblueException;
-import com.redhat.lightblue.client.request.AbstractDataBulkRequest;
-import com.redhat.lightblue.client.request.AbstractLightblueDataRequest;
-import com.redhat.lightblue.client.request.AbstractLightblueMetadataRequest;
+import com.redhat.lightblue.client.request.DataBulkRequest;
+import com.redhat.lightblue.client.request.LightblueDataRequest;
+import com.redhat.lightblue.client.request.LightblueMetadataRequest;
 import com.redhat.lightblue.client.request.LightblueRequest;
 import com.redhat.lightblue.client.response.LightblueResponse;
 
@@ -41,16 +41,14 @@ public class LightblueProducer extends DefaultProducer {
     }
 
     private LightblueResponse sendRequest(LightblueRequest request) throws LightblueException {
-        if (request instanceof AbstractLightblueDataRequest) {
-            return endpoint.getLightblueClient().data(request);
+        if (request instanceof LightblueDataRequest) {
+            return endpoint.getLightblueClient().data((LightblueDataRequest) request);
         }
-        else if (request instanceof AbstractDataBulkRequest){
-            @SuppressWarnings({"rawtypes", "unchecked"})
-            AbstractDataBulkRequest<AbstractLightblueDataRequest> bulkRequest = (AbstractDataBulkRequest) request;
-            return endpoint.getLightblueClient().bulkData(bulkRequest);
+        else if (request instanceof DataBulkRequest){
+            return endpoint.getLightblueClient().bulkData((DataBulkRequest) request);
         }
-        else if (request instanceof AbstractLightblueMetadataRequest){
-            return endpoint.getLightblueClient().metadata(request);
+        else if (request instanceof LightblueMetadataRequest){
+            return endpoint.getLightblueClient().metadata((LightblueMetadataRequest) request);
         }
         else{
             throw new IllegalArgumentException("Unknown LightblueRequest type: " + request.getClass().getName());

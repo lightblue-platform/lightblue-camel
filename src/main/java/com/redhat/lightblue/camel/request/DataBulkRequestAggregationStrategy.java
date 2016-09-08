@@ -4,7 +4,7 @@ import org.apache.camel.Exchange;
 import org.apache.camel.impl.DefaultExchange;
 import org.apache.camel.processor.aggregate.AggregationStrategy;
 
-import com.redhat.lightblue.client.request.AbstractLightblueDataRequest;
+import com.redhat.lightblue.client.request.CRUDRequest;
 import com.redhat.lightblue.client.request.DataBulkRequest;
 
 /**
@@ -22,8 +22,7 @@ public class DataBulkRequestAggregationStrategy implements AggregationStrategy {
         }
 
         DataBulkRequest bulkRequest = oldExchange.getIn().getBody(DataBulkRequest.class);
-        AbstractLightblueDataRequest request = newExchange.getIn().getBody(
-                AbstractLightblueDataRequest.class);
+        CRUDRequest request = newExchange.getIn().getBody(CRUDRequest.class);
 
         bulkRequest.add(request);
 
