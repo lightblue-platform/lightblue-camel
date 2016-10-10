@@ -32,7 +32,7 @@
   <groupId>com.redhat.lightblue.camel</groupId>
   <artifactId>lightblue-camel</artifactId>
   <packaging>bundle</packaging>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.1</version>
   <description>Camel component for working with Lightblue</description>
 
   <name>lightblue-camel: ${project.groupId}|${project.artifactId}</name>
@@ -53,7 +53,7 @@
     <connection>scm:git:https://github.com/lightblue-platform/lightblue-camel.git</connection>
     <developerConnection>scm:git:git@github.com:lightblue-platform/lightblue-camel.git</developerConnection>
     <url>https://github.com/lightblue-platform/lightblue-camel</url>
-    <tag>HEAD</tag>
+    <tag>V0.0.1</tag>
   </scm>
   
   <distributionManagement>
