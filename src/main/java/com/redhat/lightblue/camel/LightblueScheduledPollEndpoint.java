@@ -7,7 +7,7 @@ import org.apache.camel.impl.ScheduledPollEndpoint;
 import org.apache.camel.spi.UriEndpoint;
 
 import com.redhat.lightblue.client.LightblueClient;
-import com.redhat.lightblue.client.request.LightblueRequest;
+import com.redhat.lightblue.client.request.CRUDRequest;
 
 /**
  * Lightblue endpoint.
@@ -17,7 +17,7 @@ public class LightblueScheduledPollEndpoint extends ScheduledPollEndpoint {
 
     private LightblueClient lightblueClient;
 
-    private LightblueRequest lightbluePollingRequest;
+    private CRUDRequest lightbluePollingRequest;
 
     public LightblueScheduledPollEndpoint() {
     }
@@ -49,11 +49,11 @@ public class LightblueScheduledPollEndpoint extends ScheduledPollEndpoint {
     }
 
     // @Inject
-    public void setLightbluePollingRequest(LightblueRequest lightblueRequest) {
-        this.lightbluePollingRequest = lightblueRequest;
+    public void setLightbluePollingRequest(CRUDRequest lightblueRequest) {
+        lightbluePollingRequest = lightblueRequest;
     }
 
-    public LightblueRequest getLightbluePollingRequest() {
+    public CRUDRequest getLightbluePollingRequest() {
         return lightbluePollingRequest;
     }
 
